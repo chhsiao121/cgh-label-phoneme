@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.media.MediaPlayer;
 import android.media.PlaybackParams;
 import android.net.Uri;
@@ -29,13 +30,17 @@ import android.widget.Toast;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
+import com.google.common.io.ByteStreams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -52,7 +57,7 @@ public class LabelActivity extends AppCompatActivity {
     private SeekBar playerSeekBar;
     private Handler handler = new Handler();
     private float playSpeed = 1.00F;
-
+    public JSONObject jsonData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +72,19 @@ public class LabelActivity extends AppCompatActivity {
         FloatingActionButton buttonReset = findViewById(R.id.buttonReset);
         EditText editIndex = findViewById(R.id.editIndex);
         Spinner spinner1 = findViewById(R.id.speedOptions);
+
+        playerSeekBar = findViewById(R.id.playerSeekBar);
+        playerSeekBar.setMax(1000);
+        textCurrentTime = findViewById(R.id.textCurrentTime);
+        textTotalDuration = findViewById(R.id.textTotalDuration);
+        Intent intent = getIntent();
+        folder_path = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        mediaPlayer = new MediaPlayer();
+        jsonData = new JSONObject();
+        checkJsonFile();
+        loadFileList();
+        prepareMediaPlayer();
+
         ArrayAdapter adapter1 = ArrayAdapter.createFromResource(this
                 ,R.array.speeds_array,android.R.layout.simple_dropdown_item_1line);
         spinner1.setAdapter(adapter1);
@@ -84,15 +102,6 @@ public class LabelActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
-        playerSeekBar = findViewById(R.id.playerSeekBar);
-        textCurrentTime = findViewById(R.id.textCurrentTime);
-        textTotalDuration = findViewById(R.id.textTotalDuration);
-        Intent intent = getIntent();
-        folder_path = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        mediaPlayer = new MediaPlayer();
-        playerSeekBar.setMax(1000);
-        loadFileList();
-        prepareMediaPlayer();
         buttonPlay.setOnClickListener(v -> {
             if(mediaPlayer.isPlaying()){
                 mediaPlayer.pause();
@@ -104,8 +113,6 @@ public class LabelActivity extends AppCompatActivity {
                 updateSeekBar();
             }
         });
-
-
 
         buttonNext.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(editIndex.getText())) {
@@ -171,6 +178,8 @@ public class LabelActivity extends AppCompatActivity {
             }
         });
 
+
+
     }
     protected void onStop() {
         super.onStop();
@@ -180,6 +189,66 @@ public class LabelActivity extends AppCompatActivity {
         }
 
     }
+
+    private void checkJsonFile(){//1.建立json檔(如果json檔不存在)
+        int READ_EXTERNAL_STORAGE = 100;
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_EXTERNAL_STORAGE);
+
+        String path = Environment.getExternalStorageDirectory().toString() + folder_path;
+        target_name = path.split("/")[path.split("/").length - 1] + ".json";
+        if (!hasExternalStoragePrivateJson(target_name)) {
+            createExternalStoragePrivateJson(target_name);
+        } else {
+            try {
+                jsonData = new JSONObject(readJsonFromPhone(target_name));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public String readJsonFromPhone(String filename) {
+        File path = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
+        File file = new File(path, filename);
+        String line = "";
+        try {
+            FileInputStream fileInputStream = new FileInputStream(file);
+            line = new String(ByteStreams.toByteArray(fileInputStream));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return line;
+    }
+
+    void createExternalStoragePrivateJson(String filename) {
+        File path = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
+        AssetManager assetManager = getAssets();
+        File file = new File(path, filename);
+        try {
+            InputStream is = assetManager.open("new.json");
+            OutputStream os = new FileOutputStream(file);
+            byte[] data = new byte[is.available()];
+            is.read(data);
+            os.write(data);
+            is.close();
+            os.close();
+        } catch (IOException ignored) {
+        }
+    }
+
+    boolean hasExternalStoragePrivateJson(String filename) {
+        // Create a path where we will place our picture in the user's
+        // public pictures directory and check if the file exists.  If
+        // external storage is not currently mounted this will think the
+        // picture doesn't exist.
+        File path = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
+        if (path != null) {
+            File file = new File(path, filename);
+            return file.exists();
+        }
+        return false;
+    }
+
     private void prepareMediaPlayer(){
         try {
             Uri myUri = Uri.fromFile(files[select_file]);
