@@ -15,20 +15,16 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
-import android.media.AudioAttributes;
-import android.media.MediaPlayer;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.common.io.ByteStreams;
 import org.json.JSONException;
@@ -58,6 +54,12 @@ public class LabelActivity extends AppCompatActivity {
     private Handler handler = new Handler();
     private float playSpeed = 1.00F;
     public JSONObject jsonData;
+    Button outlinedBtn_ph;
+    Button outlinedBtn_m;
+    Button outlinedBtn_t;
+    Button outlinedBtn_f;
+    Button outlinedBtn_k;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,13 +74,18 @@ public class LabelActivity extends AppCompatActivity {
         FloatingActionButton buttonReset = findViewById(R.id.buttonReset);
         EditText editIndex = findViewById(R.id.editIndex);
         Spinner spinner1 = findViewById(R.id.speedOptions);
-
         playerSeekBar = findViewById(R.id.playerSeekBar);
-        playerSeekBar.setMax(1000);
         textCurrentTime = findViewById(R.id.textCurrentTime);
         textTotalDuration = findViewById(R.id.textTotalDuration);
+        outlinedBtn_ph = findViewById(R.id.outlinedButton_ph);
+        outlinedBtn_m = findViewById(R.id.outlinedButton_m);
+        outlinedBtn_t = findViewById(R.id.outlinedButton_t);
+        outlinedBtn_f = findViewById(R.id.outlinedButton_f);
+        outlinedBtn_k = findViewById(R.id.outlinedButton_k);
+
         Intent intent = getIntent();
         folder_path = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        playerSeekBar.setMax(1000);
         mediaPlayer = new MediaPlayer();
         jsonData = new JSONObject();
         checkJsonFile();
@@ -124,7 +131,6 @@ public class LabelActivity extends AppCompatActivity {
             } else {
                 if (select_file < select_file_max)
                     select_file = select_file + 1;
-                Toast.makeText(this, "+1", Toast.LENGTH_SHORT).show();
             }
             mediaPlayer.reset();
             update_text_selectGroup();
@@ -146,7 +152,11 @@ public class LabelActivity extends AppCompatActivity {
             prepareMediaPlayer();
         });
 
-
+        outlinedBtn_ph.setOnClickListener(v ->{});
+        outlinedBtn_m.setOnClickListener(v ->{});
+        outlinedBtn_t.setOnClickListener(v ->{});
+        outlinedBtn_f.setOnClickListener(v ->{});
+        outlinedBtn_k.setOnClickListener(v ->{});
 //        playerSeekBar.setOnTouchListener(new View.OnTouchListener() {
 //            @Override
 //            public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -181,6 +191,7 @@ public class LabelActivity extends AppCompatActivity {
 
 
     }
+
     protected void onStop() {
         super.onStop();
         if(mediaPlayer!=null){
