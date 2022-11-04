@@ -1,10 +1,12 @@
 package com.chhsiao.cghlabelphoneme;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
@@ -20,20 +22,26 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.common.io.ByteStreams;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.io.FilenameUtils;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -45,6 +53,7 @@ public class LabelActivity extends AppCompatActivity {
     private File[] files;
     private MediaPlayer mediaPlayer;
     private String folder_path;
+    private String ST;
     public int select_file = 0;
     public int select_file_max = 0;
     public boolean f_first_play = true;
@@ -59,8 +68,14 @@ public class LabelActivity extends AppCompatActivity {
     Button outlinedBtn_t;
     Button outlinedBtn_f;
     Button outlinedBtn_k;
-
-
+    Button btnDialog;
+    TextView textViewPhoneme;
+    ImageButton imageBackButton;
+    ArrayList <String> phonemeList;
+    String [] errorPhoneList = {"ph","m","t","f","k"};
+    String [] testList = {"test","test1","test2","test3"};
+    String pickedDialogItem;
+    private int errorIdxId = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,12 +97,16 @@ public class LabelActivity extends AppCompatActivity {
         outlinedBtn_t = findViewById(R.id.outlinedButton_t);
         outlinedBtn_f = findViewById(R.id.outlinedButton_f);
         outlinedBtn_k = findViewById(R.id.outlinedButton_k);
-
+        textViewPhoneme = findViewById(R.id.textViewPhoneme);
+        imageBackButton = findViewById(R.id.imageBackButton);
+        btnDialog = findViewById(R.id.btnDialog);
         Intent intent = getIntent();
         folder_path = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        ST = intent.getStringExtra("ST_name");
         playerSeekBar.setMax(1000);
         mediaPlayer = new MediaPlayer();
         jsonData = new JSONObject();
+        phonemeList = new ArrayList<>();
         checkJsonFile();
         loadFileList();
         prepareMediaPlayer();
@@ -99,15 +118,28 @@ public class LabelActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getSelectedItem().toString();
-
-                if(item.equals("1.00")) playSpeed = 1.00F;
-                else if(item.equals("0.75")) playSpeed = 0.75F;
-                else if(item.equals("0.50")) playSpeed = 0.50F;
-                else if(item.equals("0.25")) playSpeed = 0.25F;
+                switch (item) {
+                    case "1.00":
+                        playSpeed = 1.00F;
+                        break;
+                    case "0.75":
+                        playSpeed = 0.75F;
+                        break;
+                    case "0.50":
+                        playSpeed = 0.50F;
+                        break;
+                    case "0.25":
+                        playSpeed = 0.25F;
+                        break;
+                }
 
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
+        });
+        buttonSave.setOnClickListener(v -> {
+            savePhoneme2json();
+            saveJson2Phone(target_name, jsonData);
         });
         buttonPlay.setOnClickListener(v -> {
             if(mediaPlayer.isPlaying()){
@@ -122,6 +154,7 @@ public class LabelActivity extends AppCompatActivity {
         });
 
         buttonNext.setOnClickListener(v -> {
+            savePhoneme2json();
             if (!TextUtils.isEmpty(editIndex.getText())) {
                 select_file = Integer.parseInt(editIndex.getText().toString()) - 1;
                 if (select_file > select_file_max)
@@ -137,6 +170,7 @@ public class LabelActivity extends AppCompatActivity {
             prepareMediaPlayer();
         });
         buttonPrevious.setOnClickListener(v -> {
+            savePhoneme2json();
             if (!TextUtils.isEmpty(editIndex.getText())) {
                 select_file = Integer.parseInt(editIndex.getText().toString()) - 1;
                 if (select_file > select_file_max)
@@ -152,11 +186,28 @@ public class LabelActivity extends AppCompatActivity {
             prepareMediaPlayer();
         });
 
-        outlinedBtn_ph.setOnClickListener(v ->{});
-        outlinedBtn_m.setOnClickListener(v ->{});
-        outlinedBtn_t.setOnClickListener(v ->{});
-        outlinedBtn_f.setOnClickListener(v ->{});
-        outlinedBtn_k.setOnClickListener(v ->{});
+        outlinedBtn_ph.setOnClickListener(v ->{
+            addPhonemeTextview("ph");
+        });
+        outlinedBtn_m.setOnClickListener(v ->{
+            addPhonemeTextview("m");
+        });
+        outlinedBtn_t.setOnClickListener(v ->{
+            addPhonemeTextview("t");
+        });
+        outlinedBtn_f.setOnClickListener(v ->{
+            addPhonemeTextview("f");
+        });
+        outlinedBtn_k.setOnClickListener(v ->{
+            addPhonemeTextview("k");
+        });
+        imageBackButton.setOnClickListener(v ->{delPhonemeTextview();});
+
+        btnDialog.setOnClickListener(v ->{
+            confirmationDialogOpen(errorPhoneList);
+            confirmationDialogOpen(testList);
+//            Toast.makeText(this, pickedDialogItem, Toast.LENGTH_SHORT).show();
+        });
 //        playerSeekBar.setOnTouchListener(new View.OnTouchListener() {
 //            @Override
 //            public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -200,6 +251,54 @@ public class LabelActivity extends AppCompatActivity {
         }
 
     }
+    public void confirmationDialogOpen(String [] itemList){
+        String [] selectedItem = {itemList[errorIdxId]};
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this)
+                .setTitle("Confirmation Dialog")
+                .setSingleChoiceItems(itemList, errorIdxId, (dialogInterface, which) -> {
+                    errorIdxId = which;
+                    selectedItem[0] = itemList[which];
+                })
+                .setPositiveButton("OK", (dialogInterface, which) ->
+                        pickedDialogItem = selectedItem[0])
+                .setNegativeButton("Cancel", (dialogInterface, which) ->{
+                    pickedDialogItem = null;
+                    Toast.makeText(LabelActivity.this, "Cancel", Toast.LENGTH_SHORT).show();
+                });
+        builder.show();
+    }
+    private String returnIndex(){
+        String path = "/Documents/CGH_recording/0827/data_0820word/2022.08.25.15.57.08_738115259_adult/";
+        String[] tmp = path.split("/");
+        String folder = tmp[tmp.length -1];
+        return folder.split("_")[1];
+    }
+    private void savePhoneme2json(){
+        String tmpPhonemeStr = textViewPhoneme.getText().toString();
+        String index = returnIndex();
+        String fileName = files[select_file].getName();
+        String fileNameWithOutExt = FilenameUtils.removeExtension(fileName);
+        try {
+            jsonData.put(index+"_"+fileNameWithOutExt, tmpPhonemeStr);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    private void addPhonemeTextview(String phoneme){
+
+        phonemeList.add(phoneme);
+        String join = StringUtils.join(phonemeList," ");
+        textViewPhoneme.setText(join);
+    }
+    private void delPhonemeTextview(){
+        if(phonemeList.isEmpty()){
+            Toast.makeText(this, "Annotation is empty!", Toast.LENGTH_SHORT).show();
+        }else {
+            phonemeList.remove(phonemeList.size() - 1);
+            String join = StringUtils.join(phonemeList, " ");
+            textViewPhoneme.setText(join);
+        }
+    }
 
     private void checkJsonFile(){//1.建立json檔(如果json檔不存在)
         int READ_EXTERNAL_STORAGE = 100;
@@ -207,7 +306,7 @@ public class LabelActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_EXTERNAL_STORAGE);
 
         String path = Environment.getExternalStorageDirectory().toString() + folder_path;
-        target_name = path.split("/")[path.split("/").length - 1] + ".json";
+        target_name = ST + "_" + path.split("/")[path.split("/").length - 1] + ".json";
         if (!hasExternalStoragePrivateJson(target_name)) {
             createExternalStoragePrivateJson(target_name);
         } else {
@@ -258,6 +357,22 @@ public class LabelActivity extends AppCompatActivity {
             return file.exists();
         }
         return false;
+    }
+
+    public void saveJson2Phone(String filename, @NonNull JSONObject JsonObject) {
+        String userString = JsonObject.toString();
+        File path = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
+        File file = new File(path, filename);
+        FileWriter fileWriter;
+        try {
+            fileWriter = new FileWriter(file);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(userString);
+            bufferedWriter.close();
+            Toast.makeText(getApplicationContext(), "保存成功", Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void prepareMediaPlayer(){
@@ -316,11 +431,8 @@ public class LabelActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_EXTERNAL_STORAGE);
 
         String path = Environment.getExternalStorageDirectory().toString() + folder_path;
-        target_name = path.split("/")[path.split("/").length - 1] + ".json";
-
-
         File directory = new File(path);
-        files = directory.listFiles(new ImageFileFilter());
+        files = directory.listFiles(new WavFileFilter());
         assert files != null;
         Arrays.sort(files);
         List<File> files_list = new ArrayList<>();
@@ -348,7 +460,21 @@ public class LabelActivity extends AppCompatActivity {
         TextView textClassName = findViewById(R.id.textClassName);
         EditText editIndex = findViewById(R.id.editIndex);
         editIndex.setText(null);
-        String[] selectText;
+        textViewPhoneme.setText(null);
+        phonemeList = new ArrayList<>();
+        String index = returnIndex();
+        String fileName = files[select_file].getName();
+        String fileNameWithOutExt = FilenameUtils.removeExtension(fileName);
+
+        try {
+            String data = jsonData.get(index+"_"+fileNameWithOutExt).toString();//jsonData.get("16_36_1_k83_1n.wav")會拿到"16_36_1_k83_1n.wav"所對應的label
+            String str[]= data.split(" ");
+            phonemeList =  new ArrayList<>(Arrays.asList(str));
+            String join = StringUtils.join(phonemeList," ");
+            textViewPhoneme.setText(join);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         textFileName.setText(files[select_file].getName());
         String nn = (select_file + 1) + " / " + (select_file_max + 1);
@@ -358,6 +484,7 @@ public class LabelActivity extends AppCompatActivity {
         String tmp = files[select_file].getName();
         tmp = tmp.substring(0,tmp.lastIndexOf("."));
         textClassName.setText(getStringResourceByName(tmp));
+
     }
 
 
@@ -366,7 +493,7 @@ public class LabelActivity extends AppCompatActivity {
         int resId = getResources().getIdentifier(aString, "string", packageName);
         return getString(resId);
     }
-    public static class ImageFileFilter implements FileFilter {
+    public static class WavFileFilter implements FileFilter {
         private final String[] okFileExtensions = new String[] { "wav"};
 
         public boolean accept(File file) {

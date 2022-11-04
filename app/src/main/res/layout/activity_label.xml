@@ -70,10 +70,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:text="Speed:"
+        android:text="Playback Speed:"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/speedOptions"
-        app:layout_constraintEnd_toStartOf="@+id/speedOptions"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
         app:layout_constraintTop_toTopOf="@+id/speedOptions" />
 
     <Spinner
@@ -81,12 +82,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
         android:minHeight="48dp"
         android:spinnerMode="dropdown"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editIndex" />
+        app:layout_constraintStart_toEndOf="@+id/textViewSpeed"
+        app:layout_constraintTop_toBottomOf="@+id/textClassName" />
 
     <TextView
         android:id="@+id/textViewPhoneme"
@@ -96,13 +95,26 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:text="sil ph t"
+        android:text=""
         android:textColor="#EF476F"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/speedOptions" />
+
+
+    <ImageButton
+        android:id="@+id/imageBackButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_baseline_backspace_24"
+        android:contentDescription="delte"
+
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewPhoneme"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewPhoneme"/>
 
     <View
         android:id="@+id/viewLine"
@@ -129,6 +141,7 @@
     <!--    </ScrollView>-->
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/playerSeekBar"
@@ -146,15 +159,15 @@
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
                 android:text="ph"
                 android:textAllCaps="false"
                 android:textColor="#EF476F"
                 android:textSize="14sp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/outlinedButton_m"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/outlinedButton_m"
@@ -162,15 +175,14 @@
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:text="m"
+                android:textAllCaps="false"
                 android:textColor="#EF476F"
                 android:textSize="14sp"
-                android:textAllCaps="false"
                 app:layout_constraintBaseline_toBaselineOf="@+id/outlinedButton_ph"
                 app:layout_constraintEnd_toStartOf="@+id/outlinedButton_t"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/outlinedButton_ph"
                 tools:layout_editor_absoluteY="0dp" />
-
 
 
             <Button
@@ -179,9 +191,9 @@
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:text="t"
+                android:textAllCaps="false"
                 android:textColor="#EF476F"
                 android:textSize="14sp"
-                android:textAllCaps="false"
                 app:layout_constraintBaseline_toBaselineOf="@+id/outlinedButton_ph"
                 app:layout_constraintEnd_toStartOf="@+id/outlinedButton_f"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -194,9 +206,9 @@
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:text="f"
+                android:textAllCaps="false"
                 android:textColor="#EF476F"
                 android:textSize="14sp"
-                android:textAllCaps="false"
                 app:layout_constraintBaseline_toBaselineOf="@+id/outlinedButton_ph"
                 app:layout_constraintEnd_toStartOf="@+id/outlinedButton_k"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -209,14 +221,52 @@
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:text="k"
+                android:textAllCaps="false"
                 android:textColor="#EF476F"
                 android:textSize="14sp"
-                android:textAllCaps="false"
                 app:layout_constraintBaseline_toBaselineOf="@+id/outlinedButton_ph"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/outlinedButton_f"
-                app:layout_constraintEnd_toEndOf="parent"
                 tools:layout_editor_absoluteY="0dp" />
+
+            <Button
+                android:id="@+id/btnDialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dialog"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/outlinedButton_ph"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.*.ExposedDropdownMenu"
+                android:id="@+id/tilLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnDialog"
+                android:layout_marginStart= "16dp"
+                android:layout_marginEnd= "16dp"
+                app:layout_constraintVertical_bias="0.3"
+                app:startIconDrawable="@drawable/ic_baseline_add_location_24">
+
+                <AutoCompleteTextView
+                    android:id="@+id/actLocations"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:inputType="none"
+                    android:hint="Location"
+                    android:padding="20dp"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

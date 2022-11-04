@@ -163,10 +163,17 @@ public class MainActivity extends AppCompatActivity {
     }
     public void startLabel(View view) {
         if (f_load) {
-
-            Intent intent = new Intent(this, LabelActivity.class);
-            intent.putExtra(EXTRA_MESSAGE, PATH);
-            startActivity(intent);
+            EditText editUsername = findViewById(R.id.userName);
+            String userName = editUsername.getText().toString();
+            if (TextUtils.isEmpty(userName)) {
+                editUsername.setError(REQUIRED);
+            }else{
+                userName = userName.replaceAll("\\s", "");
+                Intent intent = new Intent(this, LabelActivity.class);
+                intent.putExtra(EXTRA_MESSAGE, PATH);
+                intent.putExtra("ST_name",userName);
+                startActivity(intent);
+            }
         } else {
             Button buttonOpen = findViewById(R.id.buttonOpen);
             buttonOpen.setError(REQUIRED);
