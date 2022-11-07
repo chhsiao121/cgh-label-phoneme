@@ -28,7 +28,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.common.io.ByteStreams;
 import org.json.JSONException;
@@ -68,15 +67,17 @@ public class LabelActivity extends AppCompatActivity {
     Button outlinedBtn_t;
     Button outlinedBtn_f;
     Button outlinedBtn_k;
-    Button btnDialog;
     TextView textViewPhoneme;
     ImageButton imageBackButton;
     ArrayList <String> phonemeList;
     String [] errorPhoneList = {"ph","m","t","f","k","m","t","f","k","m","t","f","k","m","t","f","k","m","t","f","k","m","t","f","k","m","t","f","k","m","t","f","k","m","t","f","k","m","t","f","k","m","t","f","k","m","t","f","k"};
     String [] errorTypeList = {"substitution","addition","deletion"};
-    String pickedDialogItem;
-    AutoCompleteTextView phone1Txt,phone2Txt,errorTypeTxt;
-    ArrayAdapter<String> adapterPhone1,adapterPhone2,adapterErrorTypes;
+
+    AutoCompleteTextView canonicalPhoneTxt, perceivedPhoneTxt,errorTypeTxt;
+    ArrayAdapter<String> adapterPhone,adapterErrorTypes;
+    String canonicalPhone = null;
+    String perceivedPhone = null;
+    String errorType = null;
     private int errorIdxId = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,10 +102,9 @@ public class LabelActivity extends AppCompatActivity {
         outlinedBtn_k = findViewById(R.id.outlinedButton_k);
         textViewPhoneme = findViewById(R.id.textViewPhoneme);
         imageBackButton = findViewById(R.id.imageBackButton);
-        btnDialog = findViewById(R.id.btnDialog);
         errorTypeTxt = findViewById((R.id.error_type_txt));
-        phone1Txt = findViewById(R.id.phone1_txt);
-        phone2Txt = findViewById(R.id.phone2_txt);
+        canonicalPhoneTxt = findViewById(R.id.canonical_phone_txt);
+        perceivedPhoneTxt = findViewById(R.id.perceived_phone_txt);
 
 
         Intent intent = getIntent();
@@ -122,25 +122,25 @@ public class LabelActivity extends AppCompatActivity {
         errorTypeTxt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String item = adapterView.getItemAtPosition(i).toString();
-                Toast.makeText(getApplicationContext(),"Item "+item,Toast.LENGTH_SHORT).show();
+                errorType = adapterView.getItemAtPosition(i).toString();
+                Toast.makeText(getApplicationContext(),"Item "+errorType,Toast.LENGTH_SHORT).show();
             }
         });
-        adapterPhone1 = new ArrayAdapter<String>(this,R.layout.list_item,errorPhoneList);
-        phone1Txt.setAdapter(adapterPhone1);
-        phone1Txt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        adapterPhone = new ArrayAdapter<String>(this,R.layout.list_item,errorPhoneList);
+        canonicalPhoneTxt.setAdapter(adapterPhone);
+        canonicalPhoneTxt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String item = adapterView.getItemAtPosition(i).toString();
-                Toast.makeText(getApplicationContext(),"Item "+item,Toast.LENGTH_SHORT).show();
+                canonicalPhone = adapterView.getItemAtPosition(i).toString();
+                Toast.makeText(getApplicationContext(),"Item "+canonicalPhone,Toast.LENGTH_SHORT).show();
             }
         });
-        phone2Txt.setAdapter(adapterPhone1);
-        phone2Txt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        perceivedPhoneTxt.setAdapter(adapterPhone);
+        perceivedPhoneTxt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String item = adapterView.getItemAtPosition(i).toString();
-                Toast.makeText(getApplicationContext(),"Item "+item,Toast.LENGTH_SHORT).show();
+                perceivedPhone = adapterView.getItemAtPosition(i).toString();
+                Toast.makeText(getApplicationContext(),"Item "+perceivedPhone,Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -96,7 +96,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text=""
-        android:textColor="#EF476F"
+        android:textColor="@color/purple_500"
+
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -165,7 +166,7 @@
 
                 android:text="ph"
                 android:textAllCaps="false"
-                android:textColor="#EF476F"
+                android:textColor="@color/purple_500"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toStartOf="@+id/outlinedButton_m"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -179,7 +180,7 @@
                 android:layout_height="56dp"
                 android:text="m"
                 android:textAllCaps="false"
-                android:textColor="#EF476F"
+                android:textColor="@color/purple_500"
                 android:textSize="14sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/outlinedButton_ph"
                 app:layout_constraintEnd_toStartOf="@+id/outlinedButton_t"
@@ -195,7 +196,7 @@
                 android:layout_height="56dp"
                 android:text="t"
                 android:textAllCaps="false"
-                android:textColor="#EF476F"
+                android:textColor="@color/purple_500"
                 android:textSize="14sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/outlinedButton_ph"
                 app:layout_constraintEnd_toStartOf="@+id/outlinedButton_f"
@@ -210,7 +211,7 @@
                 android:layout_height="56dp"
                 android:text="f"
                 android:textAllCaps="false"
-                android:textColor="#EF476F"
+                android:textColor="@color/purple_500"
                 android:textSize="14sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/outlinedButton_ph"
                 app:layout_constraintEnd_toStartOf="@+id/outlinedButton_k"
@@ -225,7 +226,7 @@
                 android:layout_height="56dp"
                 android:text="k"
                 android:textAllCaps="false"
-                android:textColor="#EF476F"
+                android:textColor="@color/purple_500"
                 android:textSize="14sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/outlinedButton_ph"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -233,50 +234,41 @@
                 app:layout_constraintStart_toEndOf="@+id/outlinedButton_f"
                 tools:layout_editor_absoluteY="0dp" />
 
-            <Button
-                android:id="@+id/btnDialog"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Dialog"
 
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/outlinedButton_ph" />
 
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout"
+                android:id="@+id/textInputLayoutCP"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="phone1"
+                android:hint="Canonical Phoneme"
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toStartOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnDialog">
+                app:layout_constraintTop_toBottomOf="@+id/outlinedButton_ph">
 
                 <AutoCompleteTextView
-                    android:id="@+id/phone1_txt"
+                    android:id="@+id/canonical_phone_txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout4"
+                android:id="@+id/textInputLayoutPP"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="phone2"
+                android:hint="Perceived Phoneme"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutCP">
 
                 <AutoCompleteTextView
-                    android:id="@+id/phone2_txt"
+                    android:id="@+id/perceived_phone_txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none" />
@@ -285,7 +277,7 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout2"
+                android:id="@+id/textInputLayoutET"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -293,7 +285,7 @@
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout4">
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutPP">
 
                 <AutoCompleteTextView
                     android:id="@+id/error_type_txt"
@@ -301,6 +293,21 @@
                     android:layout_height="wrap_content"
                     android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/outlinedButton_add_error"
+                style="?attr/materialButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Error"
+                android:textAllCaps="false"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutET"/>
+
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
