@@ -242,30 +242,45 @@
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.Material3.TextInputLayout.*.ExposedDropdownMenu"
-                android:id="@+id/tilLocation"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                android:layout_margin="16dp"
                 app:layout_constraintTop_toBottomOf="@+id/btnDialog"
-                android:layout_marginStart= "16dp"
-                android:layout_marginEnd= "16dp"
-                app:layout_constraintVertical_bias="0.3"
-                app:startIconDrawable="@drawable/ic_baseline_add_location_24">
+                android:hint="fuck">
 
                 <AutoCompleteTextView
-                    android:id="@+id/actLocations"
+                    android:id="@+id/error_type_txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:inputType="none"
-                    android:hint="Location"
-                    android:padding="20dp"
-                    android:textSize="30sp"
-                    android:textStyle="bold" />
+                    android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
+
+
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"-->
+<!--                android:id="@+id/tilLocation"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/btnDialog"-->
+<!--                android:layout_marginStart= "16dp"-->
+<!--                android:layout_marginEnd= "16dp">-->
+
+<!--                <AutoCompleteTextView-->
+<!--                    android:id="@+id/actLocations"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="20dp"-->
+<!--                    android:inputType="none"-->
+<!--                    android:hint="Location"-->
+<!--                    android:padding="20dp"-->
+<!--                    android:textSize="30sp"-->
+<!--                    android:textStyle="bold" />-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
 
 
 

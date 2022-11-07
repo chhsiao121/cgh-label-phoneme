@@ -6,7 +6,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
@@ -20,6 +19,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -75,6 +75,8 @@ public class LabelActivity extends AppCompatActivity {
     String [] errorPhoneList = {"ph","m","t","f","k"};
     String [] testList = {"test","test1","test2","test3"};
     String pickedDialogItem;
+    AutoCompleteTextView errorTypeTxt;
+    ArrayAdapter<String> adapterErrorTypes;
     private int errorIdxId = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +102,7 @@ public class LabelActivity extends AppCompatActivity {
         textViewPhoneme = findViewById(R.id.textViewPhoneme);
         imageBackButton = findViewById(R.id.imageBackButton);
         btnDialog = findViewById(R.id.btnDialog);
+        errorTypeTxt = findViewById((R.id.error_type_txt));
         Intent intent = getIntent();
         folder_path = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
         ST = intent.getStringExtra("ST_name");
@@ -110,7 +113,15 @@ public class LabelActivity extends AppCompatActivity {
         checkJsonFile();
         loadFileList();
         prepareMediaPlayer();
-
+        adapterErrorTypes = new ArrayAdapter<String>(this,R.layout.list_err_type,errorPhoneList);
+        errorTypeTxt.setAdapter(adapterErrorTypes);
+        errorTypeTxt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String item = adapterView.getItemAtPosition(i).toString();
+                Toast.makeText(getApplicationContext(),"Item "+item,Toast.LENGTH_SHORT).show();
+            }
+        });
         ArrayAdapter adapter1 = ArrayAdapter.createFromResource(this
                 ,R.array.speeds_array,android.R.layout.simple_dropdown_item_1line);
         spinner1.setAdapter(adapter1);
