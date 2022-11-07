@@ -67,17 +67,18 @@ public class LabelActivity extends AppCompatActivity {
     Button outlinedBtn_t;
     Button outlinedBtn_f;
     Button outlinedBtn_k;
+    Button outlinedBtnAddError;
     TextView textViewPhoneme;
     ImageButton imageBackButton;
     ArrayList <String> phonemeList;
-    String [] errorPhoneList = {"ph","m","t","f","k","m","t","f","k","m","t","f","k","m","t","f","k","m","t","f","k","m","t","f","k","m","t","f","k","m","t","f","k","m","t","f","k","m","t","f","k","m","t","f","k","m","t","f","k"};
-    String [] errorTypeList = {"substitution","addition","deletion"};
+    String [] errorPhoneList =   {"p","pʰ","m","f","t","tʰ","n","l","k","kʰ","x","tɕ","tʰɕ","ɕ","tʂ","tʰʂ","ʂ","ʐ","ts","tsʰ","s","i","u","y","a","o","e","ai","ei","au","ou","an","ən","aŋ","əŋ","sil","err"};
+    String [] errorPhoneList_h = {"p","ph","m","f","t","th","n","l","k","kh","x","tɕ","thɕ","ɕ","tʂ","thʂ","ʂ","ʐ","ts","tsh","s","i","u","y","a","o","e","ai","ei","au","ou","an","ən","aŋ","əŋ","sil","err"};
 
+    String [] errorTypeList = {"substitution","addition","deletion"};
+    String [] silenceList = {"sil"};
     AutoCompleteTextView canonicalPhoneTxt, perceivedPhoneTxt,errorTypeTxt;
-    ArrayAdapter<String> adapterPhone,adapterErrorTypes;
-    String canonicalPhone = null;
-    String perceivedPhone = null;
-    String errorType = null;
+    ArrayAdapter<String> adapterPhone,adapterErrorTypes,adapterSilPhone;
+
     private int errorIdxId = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,12 +101,12 @@ public class LabelActivity extends AppCompatActivity {
         outlinedBtn_t = findViewById(R.id.outlinedButton_t);
         outlinedBtn_f = findViewById(R.id.outlinedButton_f);
         outlinedBtn_k = findViewById(R.id.outlinedButton_k);
+        outlinedBtnAddError = findViewById(R.id.outlinedButton_add_error);
         textViewPhoneme = findViewById(R.id.textViewPhoneme);
         imageBackButton = findViewById(R.id.imageBackButton);
         errorTypeTxt = findViewById((R.id.error_type_txt));
         canonicalPhoneTxt = findViewById(R.id.canonical_phone_txt);
         perceivedPhoneTxt = findViewById(R.id.perceived_phone_txt);
-
 
         Intent intent = getIntent();
         folder_path = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
@@ -122,25 +123,37 @@ public class LabelActivity extends AppCompatActivity {
         errorTypeTxt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                errorType = adapterView.getItemAtPosition(i).toString();
-                Toast.makeText(getApplicationContext(),"Item "+errorType,Toast.LENGTH_SHORT).show();
+                String errorType = adapterView.getItemAtPosition(i).toString();
+                if(errorType.equals(errorTypeList[0])){
+                    canonicalPhoneTxt.setAdapter(adapterPhone);
+                    perceivedPhoneTxt.setAdapter(adapterPhone);
+                }
+                else if(errorType.equals(errorTypeList[1])){
+                    perceivedPhoneTxt.setAdapter(adapterPhone);
+                    canonicalPhoneTxt.setAdapter(adapterSilPhone);
+                    canonicalPhoneTxt.setText(silenceList[0]);
+                }
+                else if(errorType.equals(errorTypeList[2])){
+                    canonicalPhoneTxt.setAdapter(adapterPhone);
+                    perceivedPhoneTxt.setAdapter(adapterSilPhone);
+                    perceivedPhoneTxt.setText(silenceList[0]);
+                }
             }
         });
         adapterPhone = new ArrayAdapter<String>(this,R.layout.list_item,errorPhoneList);
+        adapterSilPhone = new ArrayAdapter<String>(this,R.layout.list_item,silenceList);
         canonicalPhoneTxt.setAdapter(adapterPhone);
         canonicalPhoneTxt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                canonicalPhone = adapterView.getItemAtPosition(i).toString();
-                Toast.makeText(getApplicationContext(),"Item "+canonicalPhone,Toast.LENGTH_SHORT).show();
+
             }
         });
         perceivedPhoneTxt.setAdapter(adapterPhone);
         perceivedPhoneTxt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                perceivedPhone = adapterView.getItemAtPosition(i).toString();
-                Toast.makeText(getApplicationContext(),"Item "+perceivedPhone,Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -235,7 +248,35 @@ public class LabelActivity extends AppCompatActivity {
             addPhonemeTextview("k");
         });
         imageBackButton.setOnClickListener(v ->{delPhonemeTextview();});
-
+        outlinedBtnAddError.setOnClickListener(v ->{
+            String canonicalPhone = canonicalPhoneTxt.getText().toString();
+            String perceivedPhone = perceivedPhoneTxt.getText().toString();
+            String errorType = errorTypeTxt.getText().toString();
+            if(errorType.equals("")){
+                Toast.makeText(this,"請先選擇Error Type!!",Toast.LENGTH_SHORT).show();
+            }
+            else if(canonicalPhone.equals("")){
+                Toast.makeText(this,"請先選擇Canonical Phoneme!!",Toast.LENGTH_SHORT).show();
+            }
+            else if(perceivedPhone.equals("")){
+                Toast.makeText(this,"請先選擇Perceived Phoneme!!",Toast.LENGTH_SHORT).show();
+            }
+            else{
+                String tmp = null;
+                if(errorType.equals(errorTypeList[0])){
+                    tmp = "s";
+                }
+                else if(errorType.equals(errorTypeList[1])){
+                    tmp = "a";
+                }
+                else if(errorType.equals(errorTypeList[2])){
+                    tmp = "d";
+                }
+                canonicalPhone = canonicalPhone.replace("ʰ","h");
+                perceivedPhone = perceivedPhone.replace("ʰ","h");
+                addPhonemeTextview(canonicalPhone+","+perceivedPhone+","+tmp);
+            }
+        });
 
 //        playerSeekBar.setOnTouchListener(new View.OnTouchListener() {
 //            @Override
