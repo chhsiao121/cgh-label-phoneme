@@ -72,11 +72,11 @@ public class LabelActivity extends AppCompatActivity {
     TextView textViewPhoneme;
     ImageButton imageBackButton;
     ArrayList <String> phonemeList;
-    String [] errorPhoneList = {"ph","m","t","f","k"};
-    String [] testList = {"test","test1","test2","test3"};
+    String [] errorPhoneList = {"ph","m","t","f","k","m","t","f","k","m","t","f","k","m","t","f","k","m","t","f","k","m","t","f","k","m","t","f","k","m","t","f","k","m","t","f","k","m","t","f","k","m","t","f","k","m","t","f","k"};
+    String [] errorTypeList = {"substitution","addition","deletion"};
     String pickedDialogItem;
-    AutoCompleteTextView errorTypeTxt;
-    ArrayAdapter<String> adapterErrorTypes;
+    AutoCompleteTextView phone1Txt,phone2Txt,errorTypeTxt;
+    ArrayAdapter<String> adapterPhone1,adapterPhone2,adapterErrorTypes;
     private int errorIdxId = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +103,10 @@ public class LabelActivity extends AppCompatActivity {
         imageBackButton = findViewById(R.id.imageBackButton);
         btnDialog = findViewById(R.id.btnDialog);
         errorTypeTxt = findViewById((R.id.error_type_txt));
+        phone1Txt = findViewById(R.id.phone1_txt);
+        phone2Txt = findViewById(R.id.phone2_txt);
+
+
         Intent intent = getIntent();
         folder_path = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
         ST = intent.getStringExtra("ST_name");
@@ -113,7 +117,7 @@ public class LabelActivity extends AppCompatActivity {
         checkJsonFile();
         loadFileList();
         prepareMediaPlayer();
-        adapterErrorTypes = new ArrayAdapter<String>(this,R.layout.list_err_type,errorPhoneList);
+        adapterErrorTypes = new ArrayAdapter<String>(this,R.layout.list_item,errorTypeList);
         errorTypeTxt.setAdapter(adapterErrorTypes);
         errorTypeTxt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -122,6 +126,24 @@ public class LabelActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Item "+item,Toast.LENGTH_SHORT).show();
             }
         });
+        adapterPhone1 = new ArrayAdapter<String>(this,R.layout.list_item,errorPhoneList);
+        phone1Txt.setAdapter(adapterPhone1);
+        phone1Txt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String item = adapterView.getItemAtPosition(i).toString();
+                Toast.makeText(getApplicationContext(),"Item "+item,Toast.LENGTH_SHORT).show();
+            }
+        });
+        phone2Txt.setAdapter(adapterPhone1);
+        phone2Txt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String item = adapterView.getItemAtPosition(i).toString();
+                Toast.makeText(getApplicationContext(),"Item "+item,Toast.LENGTH_SHORT).show();
+            }
+        });
+
         ArrayAdapter adapter1 = ArrayAdapter.createFromResource(this
                 ,R.array.speeds_array,android.R.layout.simple_dropdown_item_1line);
         spinner1.setAdapter(adapter1);
@@ -214,11 +236,7 @@ public class LabelActivity extends AppCompatActivity {
         });
         imageBackButton.setOnClickListener(v ->{delPhonemeTextview();});
 
-        btnDialog.setOnClickListener(v ->{
-            confirmationDialogOpen(errorPhoneList);
-            confirmationDialogOpen(testList);
-//            Toast.makeText(this, pickedDialogItem, Toast.LENGTH_SHORT).show();
-        });
+
 //        playerSeekBar.setOnTouchListener(new View.OnTouchListener() {
 //            @Override
 //            public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -262,22 +280,7 @@ public class LabelActivity extends AppCompatActivity {
         }
 
     }
-    public void confirmationDialogOpen(String [] itemList){
-        String [] selectedItem = {itemList[errorIdxId]};
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this)
-                .setTitle("Confirmation Dialog")
-                .setSingleChoiceItems(itemList, errorIdxId, (dialogInterface, which) -> {
-                    errorIdxId = which;
-                    selectedItem[0] = itemList[which];
-                })
-                .setPositiveButton("OK", (dialogInterface, which) ->
-                        pickedDialogItem = selectedItem[0])
-                .setNegativeButton("Cancel", (dialogInterface, which) ->{
-                    pickedDialogItem = null;
-                    Toast.makeText(LabelActivity.this, "Cancel", Toast.LENGTH_SHORT).show();
-                });
-        builder.show();
-    }
+
     private String returnIndex(){
         String path = "/Documents/CGH_recording/0827/data_0820word/2022.08.25.15.57.08_738115259_adult/";
         String[] tmp = path.split("/");
