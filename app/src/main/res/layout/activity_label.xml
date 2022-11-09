@@ -89,17 +89,16 @@
 
     <TextView
         android:id="@+id/textViewPhoneme"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
         android:text=""
         android:textColor="@color/purple_500"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageBackButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/speedOptions" />
 
@@ -110,7 +109,6 @@
         android:layout_height="wrap_content"
         android:background="@drawable/ic_baseline_backspace_24"
         android:contentDescription="delte"
-
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textViewPhoneme"
@@ -118,12 +116,12 @@
 
     <View
         android:id="@+id/viewLine"
-        android:layout_width="fill_parent"
+        android:layout_width="0dp"
         android:layout_height="2dp"
         android:background="#888686"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintEnd_toStartOf="@+id/imageBackButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewPhoneme"/>
 
@@ -144,9 +142,9 @@
         android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:padding="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toTopOf="@id/playerSeekBar"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -157,84 +155,561 @@
             android:layout_height="wrap_content">
 
             <Button
-                android:id="@+id/outlinedButton_ph"
+                android:id="@+id/outlinedButton_p"
                 style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-
-
-                android:text="ph"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="p\nㄅ"
                 android:textAllCaps="false"
                 android:textColor="@color/purple_500"
                 android:textSize="14sp"
-                app:layout_constraintEnd_toStartOf="@+id/outlinedButton_m"
+                app:layout_constraintEnd_toStartOf="@+id/outlinedButton_ph"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/outlinedButton_m"
+                android:id="@+id/outlinedButton_ph"
                 style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:text="m"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="pʰ\nㄆ"
                 android:textAllCaps="false"
                 android:textColor="@color/purple_500"
                 android:textSize="14sp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/outlinedButton_ph"
-                app:layout_constraintEnd_toStartOf="@+id/outlinedButton_t"
+                app:layout_constraintEnd_toStartOf="@+id/outlinedButton_m"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/outlinedButton_ph"
+                app:layout_constraintStart_toEndOf="@+id/outlinedButton_p"
+                app:layout_constraintTop_toTopOf="@+id/outlinedButton_p"
                 tools:layout_editor_absoluteY="0dp" />
 
 
             <Button
-                android:id="@+id/outlinedButton_t"
+                android:id="@+id/outlinedButton_m"
                 style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:text="t"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="m\nㄇ"
                 android:textAllCaps="false"
                 android:textColor="@color/purple_500"
                 android:textSize="14sp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/outlinedButton_ph"
                 app:layout_constraintEnd_toStartOf="@+id/outlinedButton_f"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/outlinedButton_m"
+                app:layout_constraintStart_toEndOf="@+id/outlinedButton_ph"
+                app:layout_constraintTop_toTopOf="@+id/outlinedButton_p"
                 tools:layout_editor_absoluteY="0dp" />
 
             <Button
                 android:id="@+id/outlinedButton_f"
                 style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:text="f"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="f\nㄈ"
                 android:textAllCaps="false"
                 android:textColor="@color/purple_500"
                 android:textSize="14sp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/outlinedButton_ph"
+                app:layout_constraintEnd_toStartOf="@+id/outlinedButton_t"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/outlinedButton_m"
+                app:layout_constraintTop_toTopOf="@+id/outlinedButton_p"
+                tools:layout_editor_absoluteY="0dp" />
+
+            <Button
+                android:id="@+id/outlinedButton_t"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="t\nㄉ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/outlinedButton_f"
+                app:layout_constraintTop_toTopOf="@+id/outlinedButton_p"
+                tools:layout_editor_absoluteY="0dp" />
+
+            <Button
+                android:id="@+id/outlinedButton_th"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="16dp"
+                android:text="tʰ\nㄊ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/outlinedButton_n"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/outlinedButton_p" />
+
+            <Button
+                android:id="@+id/outlinedButton_n"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="n\nㄋ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/outlinedButton_l"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/outlinedButton_th"
+                app:layout_constraintTop_toTopOf="@+id/outlinedButton_th"
+                tools:layout_editor_absoluteY="0dp" />
+
+
+            <Button
+                android:id="@+id/outlinedButton_l"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="l\nㄌ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toStartOf="@+id/outlinedButton_k"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/outlinedButton_t"
+                app:layout_constraintStart_toEndOf="@+id/outlinedButton_n"
+                app:layout_constraintTop_toTopOf="@+id/outlinedButton_th"
                 tools:layout_editor_absoluteY="0dp" />
 
             <Button
                 android:id="@+id/outlinedButton_k"
                 style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:text="k"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="k\nㄍ"
                 android:textAllCaps="false"
                 android:textColor="@color/purple_500"
                 android:textSize="14sp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/outlinedButton_ph"
+                app:layout_constraintEnd_toStartOf="@+id/outlinedButton_kh"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/outlinedButton_l"
+                app:layout_constraintTop_toTopOf="@+id/outlinedButton_th"
+                tools:layout_editor_absoluteY="0dp" />
+
+            <Button
+                android:id="@+id/outlinedButton_kh"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="kʰ\nㄎ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/outlinedButton_f"
+                app:layout_constraintStart_toEndOf="@+id/outlinedButton_k"
+                app:layout_constraintTop_toTopOf="@+id/outlinedButton_th"
+                tools:layout_editor_absoluteY="0dp" />
+
+            <Button
+                android:id="@+id/outlinedButton_x"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="16dp"
+                android:text="x\nㄏ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/outlinedButton_tɕ"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/outlinedButton_th" />
+
+            <Button
+                android:id="@+id/outlinedButton_tɕ"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="tɕ\nㄐ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/outlinedButton_thɕ"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/outlinedButton_x"
+                app:layout_constraintTop_toTopOf="@+id/outlinedButton_x"
                 tools:layout_editor_absoluteY="0dp" />
 
 
+            <Button
+                android:id="@+id/outlinedButton_thɕ"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="tʰɕ\nㄑ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/outlinedButton_ɕ"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/outlinedButton_tɕ"
+                app:layout_constraintTop_toTopOf="@+id/outlinedButton_x"
+                tools:layout_editor_absoluteY="0dp" />
 
+            <Button
+                android:id="@+id/outlinedButton_ɕ"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="ɕ\nㄒ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/outlinedButton_tʂ"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/outlinedButton_thɕ"
+                app:layout_constraintTop_toTopOf="@+id/outlinedButton_x"
+                tools:layout_editor_absoluteY="0dp" />
+
+            <Button
+                android:id="@+id/outlinedButton_tʂ"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="tʂ\nㄓ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/outlinedButton_ɕ"
+                app:layout_constraintTop_toTopOf="@+id/outlinedButton_x"
+                tools:layout_editor_absoluteY="0dp" />
+
+            <Button
+                android:id="@+id/outlinedButton_thʂ"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="16dp"
+                android:text="tʰʂ\nㄔ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/outlinedButton_ʂ"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/outlinedButton_x" />
+
+            <Button
+                android:id="@+id/outlinedButton_ʂ"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="ʂ\nㄕ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/outlinedButton_ʐ"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/outlinedButton_thʂ"
+                app:layout_constraintTop_toTopOf="@+id/outlinedButton_thʂ" />
+
+
+            <Button
+                android:id="@+id/outlinedButton_ʐ"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="ʐ\nㄖ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/outlinedButton_ts"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/outlinedButton_ʂ"
+                app:layout_constraintTop_toTopOf="@+id/outlinedButton_thʂ" />
+
+            <Button
+                android:id="@+id/outlinedButton_ts"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="ts\nㄗ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/outlinedButton_tsh"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/outlinedButton_ʐ"
+                app:layout_constraintTop_toTopOf="@+id/outlinedButton_thʂ" />
+
+            <Button
+                android:id="@+id/outlinedButton_tsh"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="tsʰ\nㄘ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/outlinedButton_ts"
+                app:layout_constraintTop_toTopOf="@+id/outlinedButton_thʂ" />
+
+            <Button
+                android:id="@+id/outlinedButton_s"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="16dp"
+                android:text="s\nㄙ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/outlinedButton_i"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/outlinedButton_thʂ" />
+
+            <Button
+                android:id="@+id/outlinedButton_i"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="i\nㄧ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/outlinedButton_u"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/outlinedButton_s"
+                app:layout_constraintTop_toTopOf="@+id/outlinedButton_s" />
+
+
+            <Button
+                android:id="@+id/outlinedButton_u"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="u\nㄨ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/outlinedButton_y"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/outlinedButton_i"
+                app:layout_constraintTop_toTopOf="@+id/outlinedButton_s" />
+
+            <Button
+                android:id="@+id/outlinedButton_y"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="y\nㄩ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/outlinedButton_a"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/outlinedButton_u"
+                app:layout_constraintTop_toTopOf="@+id/outlinedButton_s" />
+
+            <Button
+                android:id="@+id/outlinedButton_a"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="a\nㄚ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/outlinedButton_y"
+                app:layout_constraintTop_toTopOf="@+id/outlinedButton_s" />
+
+            <Button
+                android:id="@+id/outlinedButton_o"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="16dp"
+                android:text="o\nㄛ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/outlinedButton_ɤ"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/outlinedButton_s" />
+
+            <Button
+                android:id="@+id/outlinedButton_ɤ"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="ɤ\nㄜ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/outlinedButton_e"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/outlinedButton_o"
+                app:layout_constraintTop_toTopOf="@+id/outlinedButton_o" />
+
+
+            <Button
+                android:id="@+id/outlinedButton_e"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="e\nㄝ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/outlinedButton_ai"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/outlinedButton_ɤ"
+                app:layout_constraintTop_toTopOf="@+id/outlinedButton_o" />
+
+            <Button
+                android:id="@+id/outlinedButton_ai"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="ai\nㄞ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/outlinedButton_ei"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/outlinedButton_e"
+                app:layout_constraintTop_toTopOf="@+id/outlinedButton_o" />
+
+            <Button
+                android:id="@+id/outlinedButton_ei"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="ei\nㄟ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/outlinedButton_ai"
+                app:layout_constraintTop_toTopOf="@+id/outlinedButton_o" />
+
+            <Button
+                android:id="@+id/outlinedButton_au"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="16dp"
+                android:text="au\nㄠ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/outlinedButton_ou"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/outlinedButton_o" />
+
+            <Button
+                android:id="@+id/outlinedButton_ou"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="ou\nㄡ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/outlinedButton_an"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/outlinedButton_au"
+                app:layout_constraintTop_toTopOf="@+id/outlinedButton_au" />
+
+
+            <Button
+                android:id="@+id/outlinedButton_an"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="an\nㄢ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/outlinedButton_ən"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/outlinedButton_ou"
+                app:layout_constraintTop_toTopOf="@+id/outlinedButton_au" />
+
+            <Button
+                android:id="@+id/outlinedButton_ən"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="ən\nㄣ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/outlinedButton_aŋ"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/outlinedButton_an"
+                app:layout_constraintTop_toTopOf="@+id/outlinedButton_au" />
+
+            <Button
+                android:id="@+id/outlinedButton_aŋ"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="aŋ\nㄤ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/outlinedButton_ən"
+                app:layout_constraintTop_toTopOf="@+id/outlinedButton_au" />
+
+            <Button
+                android:id="@+id/outlinedButton_əŋ"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="16dp"
+                android:text="əŋ\nㄥ"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/outlinedButton_au"
+                app:layout_constraintStart_toStartOf="@+id/outlinedButton_au"
+                app:layout_constraintTop_toBottomOf="@+id/outlinedButton_au"/>
+
+            <Button
+                android:id="@+id/outlinedButton_sil"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="16dp"
+                android:text="sil"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/outlinedButton_an"
+                app:layout_constraintStart_toStartOf="@+id/outlinedButton_an"
+                app:layout_constraintTop_toBottomOf="@+id/outlinedButton_an"/>
+
+            <Button
+                android:id="@+id/outlinedButton_err"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="16dp"
+                android:text="err"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/outlinedButton_aŋ"
+                app:layout_constraintStart_toStartOf="@+id/outlinedButton_aŋ"
+                app:layout_constraintTop_toBottomOf="@+id/outlinedButton_aŋ"/>
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -242,11 +717,13 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Canonical Phoneme"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:hint="Canonical Phoneme"
                 app:layout_constraintEnd_toStartOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/outlinedButton_ph">
+                app:layout_constraintTop_toBottomOf="@+id/outlinedButton_sil">
 
                 <AutoCompleteTextView
                     android:id="@+id/canonical_phone_txt"
@@ -260,7 +737,9 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
                 android:hint="Perceived Phoneme"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -274,14 +753,15 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayoutET"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Error Type"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:hint="Error Type"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayoutPP">
@@ -294,18 +774,19 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
+
                 android:id="@+id/outlinedButton_add_error"
-                style="?attr/materialButtonStyle"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:text="Add Error"
                 android:textAllCaps="false"
-                android:layout_marginTop="16dp"
+                android:textStyle="bold"
+                app:icon="@drawable/ic_baseline_add_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutET"/>
-
-
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutET" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

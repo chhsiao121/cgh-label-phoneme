@@ -48,7 +48,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class LabelActivity extends AppCompatActivity {
+public class LabelActivity extends AppCompatActivity implements View.OnClickListener{
     private File[] files;
     private MediaPlayer mediaPlayer;
     private String folder_path;
@@ -62,17 +62,13 @@ public class LabelActivity extends AppCompatActivity {
     private Handler handler = new Handler();
     private float playSpeed = 1.00F;
     public JSONObject jsonData;
-    Button outlinedBtn_ph;
-    Button outlinedBtn_m;
-    Button outlinedBtn_t;
-    Button outlinedBtn_f;
-    Button outlinedBtn_k;
+
     Button outlinedBtnAddError;
     TextView textViewPhoneme;
     ImageButton imageBackButton;
     ArrayList <String> phonemeList;
-    String [] errorPhoneList =   {"p","pʰ","m","f","t","tʰ","n","l","k","kʰ","x","tɕ","tʰɕ","ɕ","tʂ","tʰʂ","ʂ","ʐ","ts","tsʰ","s","i","u","y","a","o","e","ai","ei","au","ou","an","ən","aŋ","əŋ","sil","err"};
-    String [] errorPhoneList_h = {"p","ph","m","f","t","th","n","l","k","kh","x","tɕ","thɕ","ɕ","tʂ","thʂ","ʂ","ʐ","ts","tsh","s","i","u","y","a","o","e","ai","ei","au","ou","an","ən","aŋ","əŋ","sil","err"};
+    String [] errorPhoneList =   {"p","pʰ","m","f","t","tʰ","n","l","k","kʰ","x","tɕ","tʰɕ","ɕ","tʂ","tʰʂ","ʂ","ʐ","ts","tsʰ","s","i","u","y","a","o","ɤ","e","ai","ei","au","ou","an","ən","aŋ","əŋ","sil","err"};
+    String [] errorPhoneList_h = {"p","ph","m","f","t","th","n","l","k","kh","x","tɕ","thɕ","ɕ","tʂ","thʂ","ʂ","ʐ","ts","tsh","s","i","u","y","a","o","ɤ","e","ai","ei","au","ou","an","ən","aŋ","əŋ","sil","err"};
 
     String [] errorTypeList = {"substitution","addition","deletion"};
     String [] silenceList = {"sil"};
@@ -96,11 +92,82 @@ public class LabelActivity extends AppCompatActivity {
         playerSeekBar = findViewById(R.id.playerSeekBar);
         textCurrentTime = findViewById(R.id.textCurrentTime);
         textTotalDuration = findViewById(R.id.textTotalDuration);
-        outlinedBtn_ph = findViewById(R.id.outlinedButton_ph);
-        outlinedBtn_m = findViewById(R.id.outlinedButton_m);
-        outlinedBtn_t = findViewById(R.id.outlinedButton_t);
-        outlinedBtn_f = findViewById(R.id.outlinedButton_f);
-        outlinedBtn_k = findViewById(R.id.outlinedButton_k);
+        Button outlinedBtn_p = findViewById(R.id.outlinedButton_p);
+        outlinedBtn_p.setOnClickListener(this);
+        Button outlinedBtn_ph = findViewById(R.id.outlinedButton_ph);
+        outlinedBtn_ph.setOnClickListener(this);
+        Button outlinedBtn_m = findViewById(R.id.outlinedButton_m);
+        outlinedBtn_m.setOnClickListener(this);
+        Button outlinedBtn_f = findViewById(R.id.outlinedButton_f);
+        outlinedBtn_f.setOnClickListener(this);
+        Button outlinedBtn_t = findViewById(R.id.outlinedButton_t);
+        outlinedBtn_t.setOnClickListener(this);
+        Button outlinedBtn_th = findViewById(R.id.outlinedButton_th);
+        outlinedBtn_th.setOnClickListener(this);
+        Button outlinedBtn_n = findViewById(R.id.outlinedButton_n);
+        outlinedBtn_n.setOnClickListener(this);
+        Button outlinedBtn_l = findViewById(R.id.outlinedButton_l);
+        outlinedBtn_l.setOnClickListener(this);
+        Button outlinedBtn_k = findViewById(R.id.outlinedButton_k);
+        outlinedBtn_k.setOnClickListener(this);
+        Button outlinedBtn_kh = findViewById(R.id.outlinedButton_kh);
+        outlinedBtn_kh.setOnClickListener(this);
+        Button outlinedBtn_x = findViewById(R.id.outlinedButton_x);
+        outlinedBtn_x.setOnClickListener(this);
+        Button outlinedBtn_tɕ = findViewById(R.id.outlinedButton_tɕ);
+        outlinedBtn_tɕ.setOnClickListener(this);
+        Button outlinedBtn_thɕ = findViewById(R.id.outlinedButton_thɕ);
+        outlinedBtn_thɕ.setOnClickListener(this);
+        Button outlinedBtn_ɕ = findViewById(R.id.outlinedButton_ɕ);
+        outlinedBtn_ɕ.setOnClickListener(this);
+        Button outlinedBtn_tʂ = findViewById(R.id.outlinedButton_tʂ);
+        outlinedBtn_tʂ.setOnClickListener(this);
+        Button outlinedBtn_thʂ = findViewById(R.id.outlinedButton_thʂ);
+        outlinedBtn_thʂ.setOnClickListener(this);
+        Button outlinedBtn_ʂ = findViewById(R.id.outlinedButton_ʂ);
+        outlinedBtn_ʂ.setOnClickListener(this);
+        Button outlinedBtn_ʐ = findViewById(R.id.outlinedButton_ʐ);
+        outlinedBtn_ʐ.setOnClickListener(this);
+        Button outlinedBtn_ts = findViewById(R.id.outlinedButton_ts);
+        outlinedBtn_ts.setOnClickListener(this);
+        Button outlinedBtn_tsh = findViewById(R.id.outlinedButton_tsh);
+        outlinedBtn_tsh.setOnClickListener(this);
+        Button outlinedBtn_s = findViewById(R.id.outlinedButton_s);
+        outlinedBtn_s.setOnClickListener(this);
+        Button outlinedBtn_i = findViewById(R.id.outlinedButton_i);
+        outlinedBtn_i.setOnClickListener(this);
+        Button outlinedBtn_u = findViewById(R.id.outlinedButton_u);
+        outlinedBtn_u.setOnClickListener(this);
+        Button outlinedBtn_y = findViewById(R.id.outlinedButton_y);
+        outlinedBtn_y.setOnClickListener(this);
+        Button outlinedBtn_a = findViewById(R.id.outlinedButton_a);
+        outlinedBtn_a.setOnClickListener(this);
+        Button outlinedBtn_o = findViewById(R.id.outlinedButton_o);
+        outlinedBtn_o.setOnClickListener(this);
+        Button outlinedBtn_ɤ = findViewById(R.id.outlinedButton_ɤ);
+        outlinedBtn_ɤ.setOnClickListener(this);
+        Button outlinedBtn_e = findViewById(R.id.outlinedButton_e);
+        outlinedBtn_e.setOnClickListener(this);
+        Button outlinedBtn_ai = findViewById(R.id.outlinedButton_ai);
+        outlinedBtn_ai.setOnClickListener(this);
+        Button outlinedBtn_ei = findViewById(R.id.outlinedButton_ei);
+        outlinedBtn_ei.setOnClickListener(this);
+        Button outlinedBtn_au = findViewById(R.id.outlinedButton_au);
+        outlinedBtn_au.setOnClickListener(this);
+        Button outlinedBtn_ou = findViewById(R.id.outlinedButton_ou);
+        outlinedBtn_ou.setOnClickListener(this);
+        Button outlinedBtn_an = findViewById(R.id.outlinedButton_an);
+        outlinedBtn_an.setOnClickListener(this);
+        Button outlinedBtn_ən = findViewById(R.id.outlinedButton_ən);
+        outlinedBtn_ən.setOnClickListener(this);
+        Button outlinedBtn_aŋ = findViewById(R.id.outlinedButton_aŋ);
+        outlinedBtn_aŋ.setOnClickListener(this);
+        Button outlinedBtn_əŋ = findViewById(R.id.outlinedButton_əŋ);
+        outlinedBtn_əŋ.setOnClickListener(this);
+        Button outlinedBtn_sil = findViewById(R.id.outlinedButton_sil);
+        outlinedBtn_sil.setOnClickListener(this);
+        Button outlinedBtn_err = findViewById(R.id.outlinedButton_err);
+        outlinedBtn_err.setOnClickListener(this);
         outlinedBtnAddError = findViewById(R.id.outlinedButton_add_error);
         textViewPhoneme = findViewById(R.id.textViewPhoneme);
         imageBackButton = findViewById(R.id.imageBackButton);
@@ -183,12 +250,15 @@ public class LabelActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
+        buttonReset.setOnClickListener(v -> {
+            resetPhonemeTextview();
+        });
         buttonSave.setOnClickListener(v -> {
             savePhoneme2json();
             saveJson2Phone(target_name, jsonData);
         });
         buttonPlay.setOnClickListener(v -> {
-            if(mediaPlayer.isPlaying()){
+            if(mediaPlayer != null && mediaPlayer.isPlaying()){
                 mediaPlayer.pause();
                 buttonPlay.setImageResource(R.drawable.ic_baseline_play_arrow_24);
             }else{
@@ -232,21 +302,6 @@ public class LabelActivity extends AppCompatActivity {
             prepareMediaPlayer();
         });
 
-        outlinedBtn_ph.setOnClickListener(v ->{
-            addPhonemeTextview("ph");
-        });
-        outlinedBtn_m.setOnClickListener(v ->{
-            addPhonemeTextview("m");
-        });
-        outlinedBtn_t.setOnClickListener(v ->{
-            addPhonemeTextview("t");
-        });
-        outlinedBtn_f.setOnClickListener(v ->{
-            addPhonemeTextview("f");
-        });
-        outlinedBtn_k.setOnClickListener(v ->{
-            addPhonemeTextview("k");
-        });
         imageBackButton.setOnClickListener(v ->{delPhonemeTextview();});
         outlinedBtnAddError.setOnClickListener(v ->{
             String canonicalPhone = canonicalPhoneTxt.getText().toString();
@@ -274,7 +329,7 @@ public class LabelActivity extends AppCompatActivity {
                 }
                 canonicalPhone = canonicalPhone.replace("ʰ","h");
                 perceivedPhone = perceivedPhone.replace("ʰ","h");
-                addPhonemeTextview(canonicalPhone+","+perceivedPhone+","+tmp);
+                addPhonemeTextview("<"+canonicalPhone+","+perceivedPhone+","+tmp+">");
             }
         });
 
@@ -308,29 +363,154 @@ public class LabelActivity extends AppCompatActivity {
 
             }
         });
-
-
-
+        
     }
-
-    protected void onStop() {
-        super.onStop();
-        if(mediaPlayer!=null){
-            mediaPlayer.release();
-            mediaPlayer = null;
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.outlinedButton_p:
+                addPhonemeTextview("p");
+                break;
+            case R.id.outlinedButton_ph:
+                addPhonemeTextview("ph");
+                break;
+            case R.id.outlinedButton_m:
+                addPhonemeTextview("m");
+                break;
+            case R.id.outlinedButton_f:
+                addPhonemeTextview("f");
+                break;
+            case R.id.outlinedButton_t:
+                addPhonemeTextview("t");
+                break;
+            case R.id.outlinedButton_th:
+                addPhonemeTextview("th");
+                break;
+            case R.id.outlinedButton_n:
+                addPhonemeTextview("n");
+                break;
+            case R.id.outlinedButton_l:
+                addPhonemeTextview("l");
+                break;
+            case R.id.outlinedButton_k:
+                addPhonemeTextview("k");
+                break;
+            case R.id.outlinedButton_kh:
+                addPhonemeTextview("kh");
+                break;
+            case R.id.outlinedButton_x:
+                addPhonemeTextview("x");
+                break;
+            case R.id.outlinedButton_tɕ:
+                addPhonemeTextview("tɕ");
+                break;
+            case R.id.outlinedButton_thɕ:
+                addPhonemeTextview("thɕ");
+                break;
+            case R.id.outlinedButton_ɕ:
+                addPhonemeTextview("ɕ");
+                break;
+            case R.id.outlinedButton_tʂ:
+                addPhonemeTextview("tʂ");
+                break;
+            case R.id.outlinedButton_thʂ:
+                addPhonemeTextview("thʂ");
+                break;
+            case R.id.outlinedButton_ʂ:
+                addPhonemeTextview("ʂ");
+                break;
+            case R.id.outlinedButton_ʐ:
+                addPhonemeTextview("ʐ");
+                break;
+            case R.id.outlinedButton_ts:
+                addPhonemeTextview("ts");
+                break;
+            case R.id.outlinedButton_tsh:
+                addPhonemeTextview("tsh");
+                break;
+            case R.id.outlinedButton_s:
+                addPhonemeTextview("s");
+                break;
+            case R.id.outlinedButton_i:
+                addPhonemeTextview("i");
+                break;
+            case R.id.outlinedButton_u:
+                addPhonemeTextview("u");
+                break;
+            case R.id.outlinedButton_y:
+                addPhonemeTextview("y");
+                break;
+            case R.id.outlinedButton_a:
+                addPhonemeTextview("a");
+                break;
+            case R.id.outlinedButton_o:
+                addPhonemeTextview("o");
+                break;
+            case R.id.outlinedButton_ɤ:
+                addPhonemeTextview("ɤ");
+                break;
+            case R.id.outlinedButton_e:
+                addPhonemeTextview("e");
+                break;
+            case R.id.outlinedButton_ai:
+                addPhonemeTextview("ai");
+                break;
+            case R.id.outlinedButton_ei:
+                addPhonemeTextview("ei");
+                break;
+            case R.id.outlinedButton_au:
+                addPhonemeTextview("au");
+                break;
+            case R.id.outlinedButton_ou:
+                addPhonemeTextview("ou");
+                break;
+            case R.id.outlinedButton_an:
+                addPhonemeTextview("an");
+                break;
+            case R.id.outlinedButton_ən:
+                addPhonemeTextview("ən");
+                break;
+            case R.id.outlinedButton_aŋ:
+                addPhonemeTextview("aŋ");
+                break;
+            case R.id.outlinedButton_əŋ:
+                addPhonemeTextview("əŋ");
+                break;
+            case R.id.outlinedButton_sil:
+                addPhonemeTextview("sil");
+                break;
+            case R.id.outlinedButton_err:
+                addPhonemeTextview("err");
+                break;
         }
-
     }
 
-    private String returnIndex(){
-        String path = "/Documents/CGH_recording/0827/data_0820word/2022.08.25.15.57.08_738115259_adult/";
+//    protected void onStop() {
+//        super.onStop();
+//        if(mediaPlayer!=null){
+//            mediaPlayer.release();
+//            mediaPlayer = null;
+//        }
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if(mediaPlayer!=null){
+//            mediaPlayer.reset();
+//            prepareMediaPlayer();
+//        }
+//    }
+
+    private String returnIndex(String path){
+//        String path = "/Documents/CGH_recording/0827/data_0820word/2022.08.25.15.57.08_738115259_adult/";
         String[] tmp = path.split("/");
         String folder = tmp[tmp.length -1];
         return folder.split("_")[1];
     }
     private void savePhoneme2json(){
         String tmpPhonemeStr = textViewPhoneme.getText().toString();
-        String index = returnIndex();
+        String index = returnIndex(folder_path);
         String fileName = files[select_file].getName();
         String fileNameWithOutExt = FilenameUtils.removeExtension(fileName);
         try {
@@ -354,6 +534,17 @@ public class LabelActivity extends AppCompatActivity {
             textViewPhoneme.setText(join);
         }
     }
+    private void resetPhonemeTextview(){
+        if(phonemeList.isEmpty()){
+            Toast.makeText(this, "Annotation is empty!", Toast.LENGTH_SHORT).show();
+        }else {
+            phonemeList.clear();
+//            phonemeList.removeAll(phonemeList);
+            String join = StringUtils.join(phonemeList, " ");
+            textViewPhoneme.setText(join);
+        }
+    }
+
 
     private void checkJsonFile(){//1.建立json檔(如果json檔不存在)
         int READ_EXTERNAL_STORAGE = 100;
@@ -452,6 +643,11 @@ public class LabelActivity extends AppCompatActivity {
         }
     };
     public void setSpeed(float speed) {
+        if(mediaPlayer == null){
+            this.mediaPlayer = new MediaPlayer();
+            mediaPlayer.reset();
+            prepareMediaPlayer();
+        }
         PlaybackParams pp = mediaPlayer.getPlaybackParams();
         pp.setSpeed(speed);
         mediaPlayer.setPlaybackParams(pp);
@@ -517,7 +713,7 @@ public class LabelActivity extends AppCompatActivity {
         editIndex.setText(null);
         textViewPhoneme.setText(null);
         phonemeList = new ArrayList<>();
-        String index = returnIndex();
+        String index = returnIndex(folder_path);
         String fileName = files[select_file].getName();
         String fileNameWithOutExt = FilenameUtils.removeExtension(fileName);
 
@@ -548,6 +744,9 @@ public class LabelActivity extends AppCompatActivity {
         int resId = getResources().getIdentifier(aString, "string", packageName);
         return getString(resId);
     }
+
+
+
     public static class WavFileFilter implements FileFilter {
         private final String[] okFileExtensions = new String[] { "wav"};
 
