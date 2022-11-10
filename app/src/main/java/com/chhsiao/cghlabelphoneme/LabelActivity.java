@@ -80,8 +80,6 @@ public class LabelActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_label);
-
-
         FloatingActionButton buttonSave = findViewById(R.id.buttonSave);
         FloatingActionButton buttonPlay = findViewById(R.id.buttonPlay);
         FloatingActionButton buttonNext = findViewById(R.id.buttonNext);
@@ -510,6 +508,7 @@ public class LabelActivity extends AppCompatActivity implements View.OnClickList
     }
     private void savePhoneme2json(){
         String tmpPhonemeStr = textViewPhoneme.getText().toString();
+        tmpPhonemeStr = tmpPhonemeStr.trim(); //最前面會有空格
         String index = returnIndex(folder_path);
         String fileName = files[select_file].getName();
         String fileNameWithOutExt = FilenameUtils.removeExtension(fileName);
@@ -520,7 +519,6 @@ public class LabelActivity extends AppCompatActivity implements View.OnClickList
         }
     }
     private void addPhonemeTextview(String phoneme){
-
         phonemeList.add(phoneme);
         String join = StringUtils.join(phonemeList," ");
         textViewPhoneme.setText(join);

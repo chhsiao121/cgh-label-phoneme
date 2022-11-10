@@ -27,14 +27,14 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "com.example.lable2.MESSAGE";
@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private Boolean f_load = Boolean.FALSE;
     private Button buttonUpload,buttonOpen,buttonLabel,buttonExit;
     public ArrayList<String> testType;
+    public ArrayList<String> wordcardType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
         testType.add("backing");
         testType.add("affricate");
         testType.add("fricative");
+        wordcardType = new ArrayList<>();
+        wordcardType.add("data_0820word");
+        wordcardType.add("data_0327word");
         int READ_EXTERNAL_STORAGE = 100;
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_EXTERNAL_STORAGE);
@@ -84,22 +88,27 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     }
+
+
+
+
     public void uploadFile() {
-        EditText editUsername = findViewById(R.id.userName);
-        String userName = editUsername.getText().toString();
+        TextInputLayout userNameTextInputLayout = findViewById(R.id.userNameTextInputLayout);
+        String userName = userNameTextInputLayout.getEditText().getText().toString();
         if (TextUtils.isEmpty(userName)) {
-            editUsername.setError(REQUIRED);
+            userNameTextInputLayout.setError(REQUIRED);
         } else {
             userName = userName.replaceAll("\\s", "");
             if(f_load) {
-                String json_name = PATH.split("/")[PATH.split("/").length - 1] + ".json";
+                String json_name = userName + "_" + PATH.split("/")[PATH.split("/").length - 1] + ".json";
+                
                 File upload_file = new File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), json_name);
                 if (upload_file.exists()) {
                     buttonUpload.setEnabled(false);
                     String uploadName = userName + "_" + json_name;
                     Uri jsonUri = Uri.fromFile(upload_file);
                     Log.e("save_name", uploadName);
-                    uploadjson(jsonUri, uploadName, json_name);
+                    uploadjson(jsonUri, json_name, json_name);
                 } else {
                     Toast.makeText(getApplicationContext(), "請先標記音檔並儲存", Toast.LENGTH_LONG).show();
                 }
@@ -112,13 +121,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private void uploadjson(Uri jsonUri, String uploadName, String json_name){
-        int uplodaIdx = uploadName.split("_").length - 1;
-        String uploadTestType = uploadName.split("_")[uplodaIdx - 1];
+        int uploadIdx = uploadName.split("_").length - 1;
+        String uploadTestType = uploadName.split("_")[uploadIdx - 1];
+        String uploadWordcardType = PATH.split("/")[PATH.split("/").length-2]; //data_0327word
         StorageReference Ref;
         if(testType.contains(uploadTestType)){
             Ref = mStorageRef.child("test/"+uploadName);
         }
-        else{
+        else if (wordcardType.contains(uploadWordcardType)){
+            Ref = mStorageRef.child(wordcardType+"/"+uploadName);
+        }
+        else {
             Ref = mStorageRef.child(uploadName);
         }
 
@@ -163,10 +176,10 @@ public class MainActivity extends AppCompatActivity {
     }
     public void startLabel(View view) {
         if (f_load) {
-            EditText editUsername = findViewById(R.id.userName);
-            String userName = editUsername.getText().toString();
+            TextInputLayout userNameTextInputLayout = findViewById(R.id.userNameTextInputLayout);
+            String userName = userNameTextInputLayout.getEditText().getText().toString();
             if (TextUtils.isEmpty(userName)) {
-                editUsername.setError(REQUIRED);
+                userNameTextInputLayout.setError(REQUIRED);
             }else{
                 userName = userName.replaceAll("\\s", "");
                 Intent intent = new Intent(this, LabelActivity.class);
