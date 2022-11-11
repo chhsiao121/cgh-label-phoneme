@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CGH Label Phoneme</string>
+    <string name="app_name">CGH 構音標記(Phoneme)</string>
     <string name="title_activity_label">LabelActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -11,7 +11,7 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="textFileName">k1_1_1_1.wav</string>
     <string name="textFileNumber">1 / 99</string>
-    <string name="textClassName">塞擦音化</string>
+    <string name="textAudio">wav</string>
     <string name="todo">TODO</string>
     <string name="Annotation">Annotation:</string>
     <string name="jumpTo">跳轉至…</string>
@@ -97,6 +97,21 @@
     <string name="wordcard05_08">吐司</string>
     <string name="wordcard05_08_1">吐</string>
     <string name="wordcard05_08_2">司</string>
+
+
+    <!--    0327word-->
+    <string name="wordcard04_06_0327">擦子</string>
+    <string name="wordcard04_06_1_0327">擦</string>
+    <string name="wordcard04_06_2_0327">子</string>
+    <string name="wordcard05_05_0327">插手</string>
+    <string name="wordcard05_05_1_0327">插</string>
+    <string name="wordcard05_05_2_0327">手</string>
+    <string name="wordcard05_06_0327">吸</string>
+    <string name="wordcard05_06_1_0327">吸</string>
+    <string name="wordcard05_07_0327">車</string>
+    <string name="wordcard05_07_1_0327">車</string>
+    <string name="wordcard05_08_0327">四</string>
+    <string name="wordcard05_08_1_0327">四</string>
     <!-- Stopping -->
     <string name="wordcardStopping_01">杯子</string>
     <string name="wordcardStopping_01_1">杯</string>
