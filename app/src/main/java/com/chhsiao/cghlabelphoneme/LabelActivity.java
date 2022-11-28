@@ -67,13 +67,18 @@ public class LabelActivity extends AppCompatActivity implements View.OnClickList
     TextView textViewPhoneme;
     ImageButton imageBackButton;
     ArrayList <String> phonemeList;
-    String [] errorPhoneList =   {"p","pʰ","m","f","t","tʰ","n","l","k","kʰ","x","tɕ","tʰɕ","ɕ","tʂ","tʰʂ","ʂ","ʐ","ts","tsʰ","s","i","u","y","a","o","ɤ","e","ai","ei","au","ou","an","ən","aŋ","əŋ","sil","err"};
+    String [] errorPhoneList =   {"ㄅ : p","ㄆ : pʰ","ㄇ : m","ㄈ : f","ㄉ : t","ㄊ : tʰ","ㄋ : n","ㄌ : l","ㄍ : k","ㄎ : kʰ","ㄏ : x","ㄐ : tɕ",
+            "ㄑ : tʰɕ","ㄒ : ɕ","ㄓ : tʂ","ㄔ : tʰʂ","ㄕ : ʂ","ㄖ : ʐ","ㄗ : ts","ㄘ : tsʰ","ㄙ : s","ㄧ : i","ㄨ : u","ㄩ : y","ㄚ : a","ㄛ : o",
+            "ㄜ : ɤ","ㄝ : e","ㄞ : ai","ㄟ : ei","ㄠ : au","ㄡ : ou","ㄢ : an","ㄣ : ən","ㄤ : aŋ","ㄥ : əŋ","err"};
+    String [] canonicalList =   {"ㄅ : p","ㄆ : pʰ","ㄇ : m","ㄈ : f","ㄉ : t","ㄊ : tʰ","ㄋ : n","ㄌ : l","ㄍ : k","ㄎ : kʰ","ㄏ : x","ㄐ : tɕ",
+            "ㄑ : tʰɕ","ㄒ : ɕ","ㄓ : tʂ","ㄔ : tʰʂ","ㄕ : ʂ","ㄖ : ʐ","ㄗ : ts","ㄘ : tsʰ","ㄙ : s","ㄧ : i","ㄨ : u","ㄩ : y","ㄚ : a","ㄛ : o",
+            "ㄜ : ɤ","ㄝ : e","ㄞ : ai","ㄟ : ei","ㄠ : au","ㄡ : ou","ㄢ : an","ㄣ : ən","ㄤ : aŋ","ㄥ : əŋ"};
     String [] errorPhoneList_h = {"p","ph","m","f","t","th","n","l","k","kh","x","tɕ","thɕ","ɕ","tʂ","thʂ","ʂ","ʐ","ts","tsh","s","i","u","y","a","o","ɤ","e","ai","ei","au","ou","an","ən","aŋ","əŋ","sil","err"};
 
     String [] errorTypeList = {"substitution","addition","deletion"};
     String [] silenceList = {"sil"};
     AutoCompleteTextView canonicalPhoneTxt, perceivedPhoneTxt,errorTypeTxt;
-    ArrayAdapter<String> adapterPhone,adapterErrorTypes,adapterSilPhone;
+    ArrayAdapter<String> adapterCanonicalPhone,adapterPhone,adapterErrorTypes,adapterSilPhone;
 
     private int errorIdxId = 0;
     @Override
@@ -190,7 +195,7 @@ public class LabelActivity extends AppCompatActivity implements View.OnClickList
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String errorType = adapterView.getItemAtPosition(i).toString();
                 if(errorType.equals(errorTypeList[0])){
-                    canonicalPhoneTxt.setAdapter(adapterPhone);
+                    canonicalPhoneTxt.setAdapter(adapterCanonicalPhone);
                     perceivedPhoneTxt.setAdapter(adapterPhone);
                 }
                 else if(errorType.equals(errorTypeList[1])){
@@ -199,28 +204,17 @@ public class LabelActivity extends AppCompatActivity implements View.OnClickList
                     canonicalPhoneTxt.setText(silenceList[0]);
                 }
                 else if(errorType.equals(errorTypeList[2])){
-                    canonicalPhoneTxt.setAdapter(adapterPhone);
+                    canonicalPhoneTxt.setAdapter(adapterCanonicalPhone);
                     perceivedPhoneTxt.setAdapter(adapterSilPhone);
                     perceivedPhoneTxt.setText(silenceList[0]);
                 }
             }
         });
+        adapterCanonicalPhone = new ArrayAdapter<String>(this,R.layout.list_item,canonicalList);
         adapterPhone = new ArrayAdapter<String>(this,R.layout.list_item,errorPhoneList);
         adapterSilPhone = new ArrayAdapter<String>(this,R.layout.list_item,silenceList);
-        canonicalPhoneTxt.setAdapter(adapterPhone);
-        canonicalPhoneTxt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-            }
-        });
+        canonicalPhoneTxt.setAdapter(adapterCanonicalPhone);
         perceivedPhoneTxt.setAdapter(adapterPhone);
-        perceivedPhoneTxt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-            }
-        });
 
         ArrayAdapter adapter1 = ArrayAdapter.createFromResource(this
                 ,R.array.speeds_array,android.R.layout.simple_dropdown_item_1line);
@@ -315,6 +309,7 @@ public class LabelActivity extends AppCompatActivity implements View.OnClickList
                 Toast.makeText(this,"請先選擇Perceived Phoneme!!",Toast.LENGTH_SHORT).show();
             }
             else{
+
                 String tmp = null;
                 if(errorType.equals(errorTypeList[0])){
                     tmp = "s";
@@ -325,9 +320,18 @@ public class LabelActivity extends AppCompatActivity implements View.OnClickList
                 else if(errorType.equals(errorTypeList[2])){
                     tmp = "d";
                 }
-                canonicalPhone = canonicalPhone.replace("ʰ","h");
-                perceivedPhone = perceivedPhone.replace("ʰ","h");
+                if(perceivedPhone.contains(":")){
+                    perceivedPhone = perceivedPhone.split(":")[1];
+                    perceivedPhone = perceivedPhone.trim();
+                    perceivedPhone = perceivedPhone.replace("ʰ","h");
+                }
+                if(canonicalPhone.contains(":")){
+                    canonicalPhone = canonicalPhone.split(":")[1];
+                    canonicalPhone = canonicalPhone.trim();
+                    canonicalPhone = canonicalPhone.replace("ʰ","h");
+                }
                 addPhonemeTextview("<"+canonicalPhone+","+perceivedPhone+","+tmp+">");
+
             }
         });
 

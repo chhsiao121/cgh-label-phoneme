@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
             Ref = mStorageRef.child("test/"+uploadName);
         }
         else if (wordcardType.contains(uploadWordcardType)){
-            Ref = mStorageRef.child(wordcardType+"/"+uploadName);
+            Ref = mStorageRef.child(uploadWordcardType+"/"+uploadName);
         }
         else {
             Ref = mStorageRef.child(uploadName);
