@@ -729,24 +729,25 @@ public class LabelActivity extends AppCompatActivity implements View.OnClickList
             e.printStackTrace();
         }
 
-        textFileName.setText(files[select_file].getName());
+        textFileName.setText(fileName);
         String nn = (select_file + 1) + " / " + (select_file_max + 1);
         textFileNumber.setText(nn);
         //這裡如果tmp所得到的字卡編號，不在res/values/strings.xml所宣告的字卡中，等等getStringResourceByName所拿到的resid會有問題
 //        String tmp = "wordcard" + files[select_file].getName().split("_")[1] + "_" + files[select_file].getName().split("_")[2];
-        String tmp = files[select_file].getName();
+
         String uploadWordcardType = folder_path.split("/")[folder_path.split("/").length-2];
-        tmp = tmp.substring(0,tmp.lastIndexOf("."));
+        String tmp = fileNameWithOutExt;
         if(uploadWordcardType.equals("data_0327word")){
             String [] wordcard0327 = {"wordcard04_06","wordcard04_06_1","wordcard04_06_2","wordcard05_05","wordcard05_05_1",
                     "wordcard05_05_2","wordcard05_06","wordcard05_06_1","wordcard05_07","wordcard05_07_1","wordcard05_08","wordcard05_08_1"};
-            if(Arrays.asList(wordcard0327).contains(tmp)){
-                tmp = tmp+"_0327";
+            if(Arrays.asList(wordcard0327).contains(fileNameWithOutExt)){
+                tmp = fileNameWithOutExt+"_0327";
             }
 
+        }else if(uploadWordcardType.equals("data_oldword")){
+            tmp = "oldword"+fileNameWithOutExt.split("_")[1]+"_"+fileNameWithOutExt.split("_")[2];
         }
         textClassName.setText(getStringResourceByName(tmp));
-
     }
 
 
